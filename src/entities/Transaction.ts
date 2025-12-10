@@ -1,6 +1,8 @@
-import {Entity,PrimaryGeneratedColumn,Column,ManyToOne} from "typeorm";
+import {Entity,PrimaryGeneratedColumn,Column,ManyToOne,Check} from "typeorm";
 import {User} from "./User";
-
+//@Entity()
+@Check(`"amount" > 0`)
+@Check(`"status" IN('pending',"sucess","failed")`)
 export class Transaction {
     @PrimaryGeneratedColumn()
     id:number;
