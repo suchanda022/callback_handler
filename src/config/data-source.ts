@@ -3,7 +3,7 @@ dotenv.config();
 
 import "reflect-metadata";
 import {DataSource} from "typeorm";
-import {User} from "../entities/User";
+import {Users} from "../entities/User";
 import { Transaction } from "../entities/Transaction";
 
  export const AppDataSource = new DataSource({
@@ -16,7 +16,7 @@ import { Transaction } from "../entities/Transaction";
     database: process.env.DB_NAME!,
     synchronize:true,
     logging:true,
-    entities: [User,Transaction]
+    entities: [Users,Transaction]
 
 
 });

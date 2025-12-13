@@ -1,7 +1,7 @@
 import {Entity,PrimaryGeneratedColumn,Column,ManyToOne, OneToMany} from "typeorm";
 import { Transaction } from "./Transaction";
 
-export class User {
+export class Users {
     @PrimaryGeneratedColumn()
     id:number;
 

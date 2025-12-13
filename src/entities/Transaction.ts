@@ -1,8 +1,8 @@
-import {Entity,PrimaryGeneratedColumn,Column,ManyToOne,Check, Unique} from "typeorm";
-import {User} from "./User";
+import {Entity,PrimaryGeneratedColumn,Column,ManyToOne,Check, Unique,  CreateDateColumn} from "typeorm";
+import {Users} from "./User";
 //@Entity()
 @Check(`"amount" > 0`)
-@Check(`"status" IN('pending',"sucess","failed")`)
+@Check(`"status" IN('pending',"success","failed")`)
 @Unique([`gateway_transaction_id` ])
 export class Transaction {
     @PrimaryGeneratedColumn()
@@ -33,6 +33,9 @@ export class Transaction {
     @Column("jsonb",{nullable:true})
     meta: any;
 
-    @ManyToOne(()=> User,(user)=> user.transactions)
-    user:User;
+    @CreateDateColumn({ type: "timestamp with time zone" })
+    created_at: Date;
+
+    @ManyToOne(()=> Users,(user)=> user.transactions)
+    user:Users;
 }

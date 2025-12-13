@@ -3,10 +3,10 @@ import Joi from "joi";
 export const callbackSchema = Joi.object({
   type: Joi.string()
     .valid(
-      "customer_debited",
-      "customer_via_collect",
-      "collect_request_sent",
-      "collect_request_expired"
+      "CUSTOMER_DEBITED_FOR_MERCHANT_VIA_COLLECT" ,
+      "CUSTOMER_DEBITED_FOR_MERCHANT_VIA_PAY",
+      "CUSTOMER_DEBITED_VIA_COLLECT",
+      "CUSTOMER_DEBITED_VIA_PAY"
     )
     .required(),
 
