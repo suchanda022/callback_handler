@@ -1,9 +1,9 @@
 import {Entity,PrimaryGeneratedColumn,Column,ManyToOne,Check, Unique,  CreateDateColumn} from "typeorm";
 import {Users} from "./User";
-//@Entity()
+@Entity()
 @Check(`"amount" > 0`)
-@Check(`"status" IN('pending',"success","failed")`)
-@Unique([` gatewayTransactionId` ])
+@Check(`"status" IN('pending','success','failed')`)
+@Unique([`gatewayTransactionId`])
 
   export class Transaction {
   @PrimaryGeneratedColumn()

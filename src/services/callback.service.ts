@@ -70,13 +70,13 @@ class CallbackService {
         }
 
         if(paymentmode === "COLLECT"){
-            
+
         }
 
      return await this.callbackrepo.saveTransaction({
       gatewayTransactionId,
       amount,
-      status: "SUCCESS",
+      status: "success",
       user,
     });
 }

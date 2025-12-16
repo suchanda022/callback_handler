@@ -1,16 +1,19 @@
 import { Request, Response } from "express";
 import callbackService from "../services/callback.service";
 
-class TransactionCallbackController {
+class transactionCallbackController {
+    constructor() {
+    this.handleCallback = this.handleCallback.bind(this);
+  }
   async handleCallback(req: Request, res: Response) {
     try {
-      // 1️⃣ Request body is already validated by middleware
+      //  Request body is already validated by middleware
       const payload = req.body;
 
-      // 2️⃣ Delegate to service
+      //  Delegate to service
       const result = await callbackService.processCallback(payload);
 
-      // 3️⃣ Respond to gateway
+      //  Respond to gateway
       return res.status(200).json({
         success: true,
         message: "Callback processed successfully",
@@ -18,8 +21,8 @@ class TransactionCallbackController {
       });
 
     } catch (error: any) {
-      // 4️⃣ Centralized error handling
-      return res.status(400).json({
+      // Centralized error handling
+      return res.status(200).json({
         success: false,
         message: error.message || "Callback processing failed",
       });
@@ -27,4 +30,4 @@ class TransactionCallbackController {
   }
 }
 
-export default new TransactionCallbackController();
+export default new transactionCallbackController();

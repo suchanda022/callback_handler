@@ -1,6 +1,6 @@
 import {Entity,PrimaryGeneratedColumn,Column,ManyToOne, OneToMany} from "typeorm";
 import { Transaction } from "./Transaction";
-
+@Entity()
 export class Users {
     @PrimaryGeneratedColumn()
     id:number;
