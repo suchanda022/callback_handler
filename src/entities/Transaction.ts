@@ -33,8 +33,10 @@ import {Users} from "./User";
   @Column()
     gateway_transaction_code:string; 
 
- @Column("jsonb",{nullable:true})
+ //@Column("jsonb",{nullable:true})
     meta: any;
+ @Column()
+ typeofcb : string 
 
  @CreateDateColumn({ type: "timestamp with time zone" })
     created_at: Date;

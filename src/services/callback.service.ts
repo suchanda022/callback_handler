@@ -4,23 +4,22 @@ import { CallbackRepository } from "../repositories/callback.repository"
 
 
 
-class CallbackService {
-        callbackrepo:CallbackRepository;
+export function createCallbackService () {
     
-    constructor() {
-    this.callbackrepo = new CallbackRepository();
-  }
+    
+   const  callbackrepo = CallbackRepository();
+  
 
 
-    async processCallback(payload:any){  // this is a class method & entry point
-        const{type} = payload;
+    async function processCallback(payload:any){                    // this is a class method & entry point
+        const{type} = payload; 
 
         switch (type) {
             case "CUSTOMER_DEBITED_VIA_COLLECT":
-                return this.handleCustomerDebitedViaCollect(payload);
+                return handleCustomerDebitedViaCollect(payload);
                 
             case "CUSTOMER_DEBITED_VIA_PAY":
-                return this.hanndlerCustomerDebitedViaPay(payload)
+                return hanndlerCustomerDebitedViaPay(payload);
         
             default:
                 throw new Error ("invalid callback")
@@ -29,18 +28,18 @@ class CallbackService {
 
     // handlers 
 
-    async handleCustomerDebitedViaCollect(payload:any){
-     return this.createdebitTransaction(payload,"COLLECT")
+    async function handleCustomerDebitedViaCollect(payload:any){
+     return createdebitTransaction(payload,"COLLECT")
 
     }
 
-    async hanndlerCustomerDebitedViaPay(payload:any){
-     return this.createdebitTransaction(payload,"PAY")
+    async function hanndlerCustomerDebitedViaPay(payload:any){
+     return createdebitTransaction(payload,"PAY")
     }
 
 
 
-    async createdebitTransaction(
+    async function createdebitTransaction(
         payload:any,
         paymentmode:"PAY"|"COLLECT"
        
@@ -51,7 +50,7 @@ class CallbackService {
              amount
         } = payload;
 
-        const user = await this.callbackrepo.findUserById(
+        const user = await callbackrepo.findUserById(
             merchantCustomerId
         );
 
@@ -59,21 +58,21 @@ class CallbackService {
             throw new Error ("user does not exist")
         }
 
-        const existingtxn = await this.callbackrepo.findtransactionByGatewayId(  gatewayTransactionId);
-
+        const existingtxn = await callbackrepo.findtransactionByGatewayId(  gatewayTransactionId);
+        //idempotency
         if(existingtxn){
             return existingtxn;
         }
 
         if(paymentmode==="PAY"){
-
+         
         }
 
         if(paymentmode === "COLLECT"){
-
+               
         }
 
-     return await this.callbackrepo.saveTransaction({
+     return await callbackrepo.saveTransaction({
       gatewayTransactionId,
       amount,
       status: "success",
@@ -90,4 +89,3 @@ class CallbackService {
 
 
 
-export default new CallbackService();
