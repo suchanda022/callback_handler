@@ -43,8 +43,7 @@ export function createCallbackService () {
         payload:any,
         paymentmode:"PAY"|"COLLECT"
        
-    ){
-        const {
+    ) {const {
              merchantCustomerId,
              gatewayTransactionId ,
              amount
@@ -78,7 +77,10 @@ export function createCallbackService () {
       status: "success",
       user,
     });
-}
+    }
+    return {processCallback};
+
+
 }
 
 
