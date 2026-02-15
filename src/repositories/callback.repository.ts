@@ -1,7 +1,8 @@
 import { Users} from "../entities/User";
 import { Transaction} from "../entities/Transaction";
 import { AppDataSource } from "../config/data-source";
-import { DeepPartial } from "typeorm";
+import { Code, DeepPartial } from "typeorm";
+import { error } from "console";
 
 
 export   function CallbackRepository(){
@@ -20,8 +21,25 @@ export   function CallbackRepository(){
     //}
 
     async function saveTransaction(data: DeepPartial<Transaction>) {
-    const transaction = transactionRepo.create(data);
-    return transactionRepo.save(transaction);
+
+      if(!data.gatewayTransactionId){
+        throw new Error ("gatewaytransactionId is required");    // this eliminates the error which deepartial creates by allowing all fields not to be mandatory which creates problem in (where: {gatewayTransactionId: data.gatewayTransactionId}) here , conflicts with typescript 
+      }
+      try {
+        const transaction = transactionRepo.create(); // create does not touch db , only js object in memory
+
+        return await transactionRepo.save(transaction);
+        
+      } catch (error) {
+        if(error === "23505"){  
+          return transactionRepo.findOne({
+            where: {gatewayTransactionId: data.gatewayTransactionId}
+          });
+        }
+        throw error;
+        
+      }
+
   }
     return {
     findUserById,

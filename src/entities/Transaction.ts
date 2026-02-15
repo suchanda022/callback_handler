@@ -1,8 +1,8 @@
-import {Entity,PrimaryGeneratedColumn,Column,ManyToOne,Check, Unique,  CreateDateColumn} from "typeorm";
+import {Entity,PrimaryGeneratedColumn,Column,ManyToOne,Check, Unique,  CreateDateColumn, UpdateDateColumn} from "typeorm";
 import {Users} from "./User";
 @Entity()
 @Check(`"amount" > 0`)
-@Check(`"status" IN('pending','success','failed')`)
+@Check(`"status" IN('SUCCESS','FAILED','PENDING',)`)
 @Unique([`gatewayTransactionId`])
 
   export class Transaction {
@@ -40,6 +40,8 @@ import {Users} from "./User";
 
  @CreateDateColumn({ type: "timestamp with time zone" })
     created_at: Date;
+ @UpdateDateColumn({type: "timestamp with time zone"})
+   updated_at:Date;
 
  @ManyToOne(()=> Users,(user)=> user.transactions)
     user:Users;

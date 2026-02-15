@@ -1,5 +1,7 @@
 
+import { error } from "console";
 import { CallbackRepository } from "../repositories/callback.repository"
+import { mapGatewaycodetoStatus } from "../gateway-status";
 
 
 
@@ -7,11 +9,11 @@ import { CallbackRepository } from "../repositories/callback.repository"
 export function createCallbackService () {
     
     
-   const  callbackrepo = CallbackRepository();
+   const  repo = CallbackRepository();   // this repo is private dependency  
   
 
 
-    async function processCallback(payload:any){                    // this is a class method & entry point
+    async function processCallback(payload:any){                    // this is a  method & entry point
         const{type} = payload; 
 
         switch (type) {
@@ -46,24 +48,39 @@ export function createCallbackService () {
     ) {const {
              merchantCustomerId,
              gatewayTransactionId ,
-             amount
+             amount,
+             code
         } = payload;
 
-        const user = await callbackrepo.findUserById(
+
+        const user = await repo.findUserById(
             merchantCustomerId
         );
+        const newstatus = mapGatewaycodetoStatus(code);
 
         if(!user){
             throw new Error ("user does not exist")
         }
 
-        const existingtxn = await callbackrepo.findtransactionByGatewayId(  gatewayTransactionId);
+        const existingtxn = await repo.findtransactionByGatewayId(  gatewayTransactionId);
         //idempotency
         if(existingtxn){
+            {
+                existingtxn.status == "SUCCESS";
+            }
             return existingtxn;
         }
 
-        if(paymentmode==="PAY"){
+        
+            
+           if(!code){
+            throw new Error("Gateway response code is mising");
+           }
+           if(status){
+            
+           
+           
+           
          
         }
 
@@ -71,10 +88,10 @@ export function createCallbackService () {
                
         }
 
-     return await callbackrepo.saveTransaction({
+     return await repo.saveTransaction({
       gatewayTransactionId,
       amount,
-      status: "success",
+      status: ,
       user,
     });
     }
