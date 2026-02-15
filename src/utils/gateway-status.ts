@@ -11,7 +11,7 @@ const GATEEWAY_STATUS_MAP : Record<string,TransactionStatus> = {
     "99":"PENDING"
 };
 
-export function mapGatewatcodetoStatus(
+export function mapGatewaycodetoStatus(
     code:string
 ): TransactionStatus{
     return GATEEWAY_STATUS_MAP[code] ?? "FAILED";

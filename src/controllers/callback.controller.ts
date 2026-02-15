@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import createCallbackService  from "../services/callback.service";
+import {createCallbackService}  from "../services/callback.service";
 
 export const  transactionCallbackController = async (req:Request,res:Response)=> {
  
@@ -7,9 +7,9 @@ export const  transactionCallbackController = async (req:Request,res:Response)=>
     try {
       //  Request body is already validated by middleware
       const payload = req.body;
-
+     const service = createCallbackService();
       //  Delegate to service
-      const result = await createCallbackService.processCallback(payload);
+      const result = await service.processCallback(payload);
 
       //  Respond to gateway
       return res.status(200).json({

@@ -1,7 +1,7 @@
 
 import { error } from "console";
 import { CallbackRepository } from "../repositories/callback.repository"
-import { mapGatewaycodetoStatus } from "../gateway-status";
+import { mapGatewaycodetoStatus } from "../utils/gateway-status"
 
 
 
@@ -91,7 +91,7 @@ export function createCallbackService () {
      return await repo.saveTransaction({
       gatewayTransactionId,
       amount,
-      status: ,
+       
       user,
     });
     }
