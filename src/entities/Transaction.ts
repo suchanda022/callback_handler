@@ -2,7 +2,7 @@ import {Entity,PrimaryGeneratedColumn,Column,ManyToOne,Check, Unique,  CreateDat
 import {Users} from "./User";
 @Entity()
 @Check(`"amount" > 0`)
-@Check(`"status" IN('SUCCESS','FAILED','PENDING',)`)
+@Check(`"status" IN('SUCCESS','FAILED','PENDING')`)
 @Unique([`gatewayTransactionId`])
 
   export class Transaction {

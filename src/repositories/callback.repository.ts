@@ -1,8 +1,8 @@
 import { Users} from "../entities/User";
 import { Transaction} from "../entities/Transaction";
 import { AppDataSource } from "../config/data-source";
-import { Code, DeepPartial } from "typeorm";
-import { error } from "console";
+import {  DeepPartial } from "typeorm";
+
 
 
 export   function CallbackRepository(){
@@ -12,7 +12,7 @@ export   function CallbackRepository(){
     async function findUserById(id:number){
         return userRepo.findOne({where:{id}});
     }
-    async function findtransactionByGatewayId(gatewayTransactionId:string){
+    async function findTransactionByGatewayId(gatewayTransactionId:string){
         return transactionRepo.findOne({where:{ gatewayTransactionId}} )
     }
 
@@ -23,10 +23,10 @@ export   function CallbackRepository(){
     async function saveTransaction(data: DeepPartial<Transaction>) {
 
       if(!data.gatewayTransactionId){
-        throw new Error ("gatewaytransactionId is required");    // this eliminates the error which deepartial creates by allowing all fields not to be mandatory which creates problem in (where: {gatewayTransactionId: data.gatewayTransactionId}) here , conflicts with typescript 
+        throw new Error ("gatewayTransactionId is required");    // this eliminates the error which deepartial creates by allowing all fields not to be mandatory which creates problem in (where: {gatewayTransactionId: data.gatewayTransactionId}) here , conflicts with typescript 
       }
       try {
-        const transaction = transactionRepo.create(); // create does not touch db , only js object in memory
+        const transaction = transactionRepo.create(data); // create does not touch db , only js object in memory
 
         return await transactionRepo.save(transaction);
         
@@ -43,7 +43,7 @@ export   function CallbackRepository(){
   }
     return {
     findUserById,
-    findtransactionByGatewayId,
+    findTransactionByGatewayId,
     saveTransaction,
   };  // without this CallbackRepository this func will return undefined by default
 }
