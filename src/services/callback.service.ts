@@ -109,7 +109,13 @@ export function createCallbackService () {
            if(!response_code){
             throw new Error("Gateway response code is missing");
            }
-
+         console.log("FINAL DATA:", {
+            gatewayTransactionId,
+            payee_vpa,
+            payer_vpa,
+            payee_name,
+            payer_name
+        });
      return await repo.saveTransaction({
       gatewayTransactionId,
       amount,
