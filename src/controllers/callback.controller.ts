@@ -20,8 +20,8 @@ export const  transactionCallbackController = async (req:Request,res:Response)=>
 
     } catch (error: any) {
       // Centralized error handling
-      return res.status(200).json({
-        success: false,
+       res.status(error.statusCode||500).json({
+       success: false,
         message: error.message || "Callback processing failed",
       });
     }

@@ -50,18 +50,11 @@ export function createCallbackService () {
     }
     
     async function handleDirectPayFlow(payload:any,status:string){
-        const {gatewayTransactionId,merchantCustomerId,amount} = payload;
+        //const {gatewayTransactionId,merchantCustomerId,amount} = payload;
 
         return AppDataSource.transaction(async()=>{
-            const user = await repo.findUserById(merchantCustomerId);
-            if(!user) throw new Error("user not found");
+            return await createdebitTransaction(payload, "PAY");
 
-            return await repo.saveTransaction({
-                gatewayTransactionId,
-                amount,
-                status,
-                user
-            });
         });
         
 
@@ -84,6 +77,7 @@ export function createCallbackService () {
              
         } = payload;
           if (payee_vpa !== process.env.MERCHANT_VPA) {
+            console.warn (`Received callback with invalid payee VPA: ${payee_vpa}`);
             throw new Error("Invalid payee VPA");
         }
 
@@ -92,11 +86,12 @@ export function createCallbackService () {
         const user = await repo.findUserById(
             merchantCustomerId
         );
-        const newstatus = mapGatewaycodetoStatus(response_code);
-
         if(!user){
             throw new Error ("user does not exist")
         }
+        const newstatus = mapGatewaycodetoStatus(response_code);
+
+      
 
         const existingtxn = await repo.findTransactionByGatewayId(gatewayTransactionId);
         //idempotency
@@ -109,13 +104,7 @@ export function createCallbackService () {
            if(!response_code){
             throw new Error("Gateway response code is missing");
            }
-         console.log("FINAL DATA:", {
-            gatewayTransactionId,
-            payee_vpa,
-            payer_vpa,
-            payee_name,
-            payer_name
-        });
+ 
      return await repo.saveTransaction({
       gatewayTransactionId,
       amount,
