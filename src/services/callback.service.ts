@@ -2,7 +2,7 @@
 import { AppDataSource } from "../config/data-source";
 import { CallbackRepository } from "../repositories/callback.repository"
 import { mapGatewaycodetoStatus } from "../utils/gateway-status";
-import { Transaction } from "../entities/Transaction";
+
 
 
 
