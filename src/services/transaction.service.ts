@@ -9,9 +9,13 @@ export async function createTransactionService(payload:any,flowType:string){
      if(!userid||!amount){
         throw new Error("Invalid transaction payload");
      }
-     const gatewayTransactionId = `GTX-${Date.now()}`;
+   const order = await razorpayInstance.orders.create({
+    amount: amount * 100, // convert to paisa
+    currency: "INR",
+    receipt: `rcpt_${Date.now()}`,
+  });
      const transaction = {
-        gatewayTransactionId,
+        gatewayTransactionId:order.id,
         amount,
         status:"PENDING",
         merchantCustomerId:userid,
@@ -22,7 +26,8 @@ export async function createTransactionService(payload:any,flowType:string){
 
      return {
         message:"transaction started",
-        data:saved
+        data:saved,
+        razorpayid:order.id
      };
     
 };
