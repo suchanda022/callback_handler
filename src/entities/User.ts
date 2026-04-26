@@ -3,7 +3,7 @@ import { Transaction } from "./Transaction";
 @Entity()
 export class Users {
     @PrimaryGeneratedColumn()
-    id:number;
+    userid:number;
 
     @Column({unique:true})
     mobile_number: string;

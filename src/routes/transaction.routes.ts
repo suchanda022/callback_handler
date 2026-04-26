@@ -1,18 +1,15 @@
-import {Router}   from "express";
-import { validate} from "../middleware/validate";
-import { callbackSchema } from "../validations/paymentsschema.validation"; 
-import {transactionCallbackController} from "../controllers/callback.controller";
-import { createCtransactiononctroller } from "../controllers/createTransaction.controller";
-
+import { Router } from "express";
+import { validate } from "../middleware/validate";
+import { callbackSchema } from "../validations/paymentsschema.validation";
+import { transactionCallbackController } from "../controllers/callback.controller";
+import { createTransactionController } from "../controllers/createTransaction.controller";
 
 const router = Router();
 
-router.post("/callback",
-            validate(callbackSchema),
-             transactionCallbackController
-
-            
-
+router.post(
+  "/callback",
+  validate(callbackSchema),
+  transactionCallbackController
 );
-router.post("/create-transaction", createCtransactiononctroller);
+router.post("/create-transaction", createTransactionController);
 export default router;

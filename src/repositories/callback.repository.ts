@@ -9,8 +9,8 @@ export   function CallbackRepository(){
     const userRepo = AppDataSource.getRepository(Users);  // returning an object
     const transactionRepo = AppDataSource.getRepository(Transaction);
 
-    async function findUserById(id:number){
-        return userRepo.findOne({where:{id}});
+    async function findUserById(userid:number){
+        return userRepo.findOne({where:{userid}});
     }
     async function findTransactionByGatewayId(gatewayTransactionId:string){
         return transactionRepo.findOne({where:{ gatewayTransactionId}} )
