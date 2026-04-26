@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { validate } from "../middleware/validate";
-import { callbackSchema } from "../validations/paymentsschema.validation";
+import {
+  callbackSchema,
+  createTransactionSchema,
+} from "../validations/paymentsschema.validation";
 import { transactionCallbackController } from "../controllers/callback.controller";
 import { createTransactionController } from "../controllers/createTransaction.controller";
 
@@ -11,5 +14,9 @@ router.post(
   validate(callbackSchema),
   transactionCallbackController
 );
-router.post("/create-transaction", createTransactionController);
-export default router;
+router.post(
+  "/create-transaction",
+  validate(createTransactionSchema),
+  createTransactionController
+);
+export default router; 

@@ -14,16 +14,16 @@ import {Users} from "./User";
   @Column()
   gatewayTransactionId: string;
 
-  @Column({ name: "payee_vpa" })
+  @Column({ name: "payee_vpa",nullable:true})
   payeeVpa: string;
 
-  @Column({ name: "payer_vpa" })
+  @Column({ name: "payer_vpa" ,nullable:true})
   payerVpa: string;
 
-  @Column({ name: "payee_name" })
+  @Column({ name: "payee_name",nullable:true })
   payeeName: string;
 
-  @Column({ name: "payer_name" })
+  @Column({ name: "payer_name",nullable:true })
   payerName: string;
 
   @Column()
@@ -32,12 +32,12 @@ import {Users} from "./User";
   @Column()
     status:string;
 
-  @Column()
+  @Column({nullable:true})
     gateway_transaction_code:string; 
 
  //@Column("jsonb",{nullable:true})
     meta: any;
- @Column()
+ @Column({nullable:true})
  typeofcb : string 
 
  @CreateDateColumn({ type: "timestamp with time zone" })

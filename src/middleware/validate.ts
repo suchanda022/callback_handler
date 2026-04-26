@@ -1,18 +1,16 @@
-import {Request,Response,NextFunction} from "express";
-import { callbackSchema  } from "../validations/paymentsschema.validation";
+import { Request, Response, NextFunction } from "express";
 
-export const validate = (schema:any)=>{
-    return (req:Request,res:Response,next:NextFunction)=>{
-      const {error}=callbackSchema.validate(req.body);
+export const validate = (schema: any) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const { error } = schema.validate(req.body);
 
-      if(error){
-        return res.status(400).json({
-            success:false,
-            message:error.message
-        });
-      }
-      next();
-
+    if (error) {
+      return res.status(400).json({
+        success: false,
+        message: error.message,
+      });
     }
 
+    next();
+  };
 };
